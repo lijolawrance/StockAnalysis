@@ -6,10 +6,10 @@ class StockData:
         self.df_stock_data = pd.DataFrame()
 
     def load_data_from_yFinance(self, stock, period, interval):
-        self.df_stock_data = stock.history(period=period, interval=interval)
+        self.df_stock_data = stock.history(period=period, interval=interval, )
 
-    def drop_columns_frm_df(self, column):
-        self.df_stock_data.drop([column])
+    def drop_columns_frm_df(self, **kwargs):
+        [self.df_stock_data.drop(value, axis='columns', inplace=True) for key, value in kwargs.items()]
 
     def write_data_to_csv(self, stock_name):
         self.df_stock_data.to_csv('data/' + stock_name + '.csv')
