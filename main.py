@@ -8,33 +8,30 @@ regex = '[^A-Za-z0-9]+'
 
 class Main:
 
-    def __init__(self):
+    def __init__(self, symbol):
+        self.stock = yahoo.Ticker(symbol)
+        self.stock_name = re.sub(regex, '', self.stock.info['shortName'])
         self.sd = StockData.StockData()
         self.ut = Utilities.Utilities()
 
-    def load_stock_details(self, stock, stock_name):
-        self.sd.load_data_from_yFinance(stock_name, '5y', '1d')
+    def get_stock_name(self):
+        return self.stock, self.stock_name
+
+    def load_stock_details(self):
+        self.sd.load_data_from_yFinance(self.stock, '5y', '1d')
         self.sd.drop_columns_frm_df(first='Dividends', second='Stock Splits')
-        self.sd.load_data_to_sqllite(stock_name)
+        self.sd.load_data_to_sqllite(self.stock_name)
 
-    def gen_stock_for_analysis(self, stock, stock_name):
-        self.sd.load_data_from_yFinance(stock, '5y', '1d')
+    def gen_stock_for_analysis(self):
+        self.sd.load_data_from_yFinance(self.stock, '5y', '1d')
         self.sd.drop_columns_frm_df(first='Dividends', second='Stock Splits')
-        self.sd.load_data_to_sqllite(stock_name)
+        self.sd.load_data_to_sqllite(self.stock_name)
 
 
-def get_stock_name(stock_symbol):
-    stock = yahoo.Ticker(stock_symbol)
-    stock_name = re.sub(regex, '', stock.info['shortName'])
-    return stock, stock_name
-
-
-main = Main()
-main.load_stock_details('^NSEI')
-main.load_stock_details('SBIN.NS')
-main.load_stock_details('HDFCBANK.NS')
-stock, stock_name = get_stock_name('ICICIBANK.NS')
-main.load_stock_details(stock, stock_name)
+Main('ICICIBANK.NS').load_stock_details()
+Main('SBIN.NS').load_stock_details()
+Main('HDFCBANK.NS').load_stock_details()
+#main.load_stock_details()
 
 # stock = yahoo.tickers.multi.download(['SBIN.NS', 'HDFCBANK.NS'], start='1-1-2018')
 
