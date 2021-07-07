@@ -1,3 +1,5 @@
+import time
+
 import pandas as pd
 
 from notebooks.Database import Database
@@ -13,9 +15,10 @@ class StockData:
     def drop_columns_frm_df(self, **kwargs):
         [self.df_stock_data.drop(value, axis='columns', inplace=True) for key, value in kwargs.items()]
 
-    def load_data_to_sqllite(self,stock_name):
+    def load_data_to_sqllite(self, stock_name):
         db = Database()
-        db.load_file(self.df_stock_data,stock_name)
+        #self.df_stock_data['load_time'] = time.localtime()
+        db.load_file(self.df_stock_data, stock_name)
 
     def write_data_to_csv(self, stock_name):
         self.df_stock_data.to_csv('data/' + stock_name + '.csv')

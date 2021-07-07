@@ -13,5 +13,5 @@ class Database:
         df_excel.to_sql(con=self.conn, name='yahoo_tickers')
 
     def load_file(self, df_stock, stock_name):
-        df_stock.to_sql(con=self.conn, name=stock_name, if_exists='append')
+        df_stock.to_sql(con=self.conn, name=stock_name, if_exists='replace')
 
