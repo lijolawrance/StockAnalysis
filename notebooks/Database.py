@@ -15,3 +15,6 @@ class Database:
     def load_file(self, df_stock, stock_name):
         df_stock.to_sql(con=self.conn, name=stock_name, if_exists='replace')
 
+    def fetch_data(self, query):
+        return pd.read_sql(query,con=self.conn)
+

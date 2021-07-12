@@ -10,14 +10,14 @@ class StockData:
         self.df_stock_data = pd.DataFrame()
 
     def load_data_from_yFinance(self, stock, period, interval):
-        self.df_stock_data = stock.history(period=period, interval=interval, )
+        self.df_stock_data = stock.history(period=period, interval=interval)
 
     def drop_columns_frm_df(self, **kwargs):
         [self.df_stock_data.drop(value, axis='columns', inplace=True) for key, value in kwargs.items()]
 
     def load_data_to_sqllite(self, stock_name):
         db = Database()
-        #self.df_stock_data['load_time'] = time.localtime()
+        # self.df_stock_data['load_time'] = time.localtime()
         db.load_file(self.df_stock_data, stock_name)
 
     def write_data_to_csv(self, stock_name):
