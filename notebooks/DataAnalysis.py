@@ -13,5 +13,5 @@ import plotly.graph_objects as go
 
 class DataAnalysis:
     def __init__(self):
-        self.db=Database()
-        self.ut=Utilities()
+        self.db = Database()
+        self.ut = Utilities()
